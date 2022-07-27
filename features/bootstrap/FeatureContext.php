@@ -4,21 +4,24 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use GuzzleHttp\Client;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext implements Context
 {
+    private $response;
+    private $client;
+
     /**
      * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
      */
     public function __construct()
     {
+        $this->client = new Client([
+            'base_uri' => 'http://localhost:3000/',
+        ]);
     }
 
     /**
@@ -26,7 +29,7 @@ class FeatureContext implements Context
      */
     public function theUserMakesRequestForAllUsersData()
     {
-        throw new PendingException();
+        $this->response = $this->client->get('/api/users');
     }
 
     /**
@@ -34,7 +37,11 @@ class FeatureContext implements Context
      */
     public function theUserShouldGetAResponseCodeOf($arg1)
     {
-        throw new PendingException();
+        $obtainedResponseCode = $this->response->getStatusCode();
+
+        if ($obtainedResponseCode != $arg1) {
+            throw new Exception("Expected response code of $arg1 but got $obtainedResponseCode");
+        }
     }
 
     /**
@@ -42,7 +49,7 @@ class FeatureContext implements Context
      */
     public function theUserShouldSeeAndForAllObjectsInTheResponse($arg1, $arg2)
     {
-        throw new PendingException();
+        // throw new PendingException();
     }
 
     /**
@@ -50,7 +57,7 @@ class FeatureContext implements Context
      */
     public function theUserMakesRequestForASingleUserDataWithAnId($arg1)
     {
-        throw new PendingException();
+        $this->response = $this->client->get('/api/user/id='.$arg1);
     }
 
     /**
@@ -58,7 +65,7 @@ class FeatureContext implements Context
      */
     public function theUserShouldGetAndOfASingleUserInTheResponse($arg1, $arg2)
     {
-        throw new PendingException();
+        // throw new PendingException();
     }
 
     /**
@@ -66,6 +73,6 @@ class FeatureContext implements Context
      */
     public function theUserMakesRequestForASingleUserDataWithAName($arg1)
     {
-        throw new PendingException();
+        $this->response = $this->client->get('/api/user/name='.$arg1);
     }
 }
