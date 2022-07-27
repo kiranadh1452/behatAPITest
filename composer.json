@@ -1,0 +1,6 @@
+{
+    "require": {
+        "behat/behat": "^3.11",
+        "behat/gherkin": "^4.9"
+    }
+}
