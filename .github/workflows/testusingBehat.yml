@@ -18,6 +18,12 @@ jobs:
                   repository: kiranadh1452/simpleAPI
                   path: api-repo
 
+            - name: Expose all files and folders
+              run: |
+                ls -a
+                cd api-repo
+                ls -a
+
             - name: Setup node
               uses: actions/setup-node@v3
               with:
