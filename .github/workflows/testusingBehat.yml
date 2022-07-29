@@ -18,12 +18,6 @@ jobs:
                   repository: kiranadh1452/simpleAPI
                   path: api-repo
 
-            - name: Expose all files and folders
-              run: |
-                ls -a
-                cd api-repo
-                ls -a
-
             - name: Setup node
               uses: actions/setup-node@v3
               with:
@@ -33,12 +27,12 @@ jobs:
               run: |
                   cd api-repo
                   npm ci
-                  node node expressApp.js &
+                  node expressApp.js &
 
             - name: Setup php
               uses: "shivammathur/setup-php@v2"
               with:
-                  php-version: "7.1.3"
+                  php-version: "7.4.3"
 
             - name: Install Behat dependencies
               run: composer update
