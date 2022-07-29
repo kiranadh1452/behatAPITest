@@ -1,0 +1,41 @@
+name: TEST simpleAPI
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Checkout tools repo
+              uses: actions/checkout@v3
+              with:
+                  repository: kiranadh1452/simpleAPI
+                  path: api-repo
+
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 14.x
+
+            - name: Install API dependencies and Start API Service
+              run: |
+                  cd api-repo
+                  npm ci
+                  node node expressApp.js &
+
+            - name: Setup php
+              uses: "shivammathur/setup-php@v2"
+              with:
+                  php-version: "7.1.3"
+
+            - name: Install Behat dependencies
+              run: composer install
+
+            - name: Run Behat tests
+              run: vendor/bin/behat
