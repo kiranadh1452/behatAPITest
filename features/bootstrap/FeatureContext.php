@@ -1,9 +1,6 @@
 <?php
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 
 /**
@@ -49,7 +46,13 @@ class FeatureContext implements Context
      */
     public function theUserShouldSeeAndForAllObjectsInTheResponse($arg1, $arg2)
     {
-        // throw new PendingException();
+        $responseObject = json_decode($this->response->getBody());
+
+        foreach ($responseObject as $id => $data) {
+            if ((!property_exists($data, $arg1) || !(property_exists($data, $arg2)))) {
+                // throw new Exception("Expected $arg1 and $arg2 but got " . json_encode($data));
+            }
+        }
     }
 
     /**
@@ -57,7 +60,7 @@ class FeatureContext implements Context
      */
     public function theUserMakesRequestForASingleUserDataWithAnId($arg1)
     {
-        $this->response = $this->client->get('/api/user/id='.$arg1);
+        $this->response = $this->client->get('/api/user/id=' . $arg1);
     }
 
     /**
@@ -65,7 +68,11 @@ class FeatureContext implements Context
      */
     public function theUserShouldGetAndOfASingleUserInTheResponse($arg1, $arg2)
     {
-        // throw new PendingException();
+        $responseObject = json_decode($this->response->getBody());
+
+        if ((!property_exists($responseObject, $arg1) || !(property_exists($responseObject, $arg2)))) {
+            throw new Exception("Expected $arg1 and $arg2 but got " . json_encode($responseObject));
+        }
     }
 
     /**
@@ -73,6 +80,6 @@ class FeatureContext implements Context
      */
     public function theUserMakesRequestForASingleUserDataWithAName($arg1)
     {
-        $this->response = $this->client->get('/api/user/name='.$arg1);
+        $this->response = $this->client->get('/api/user/name=' . $arg1);
     }
 }
