@@ -12,7 +12,7 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v3
 
-            - name: Checkout tools repo
+            - name: Checkout api repo
               uses: actions/checkout@v3
               with:
                   repository: kiranadh1452/simpleAPI
