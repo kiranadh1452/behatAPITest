@@ -1,6 +1,10 @@
 <?php
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\AfterFeatureScope;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeFeatureScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 
@@ -20,6 +24,46 @@ class FeatureContext implements Context
         $this->client = new Client([
             'base_uri' => 'http://localhost:3000/',
         ]);
+    }
+
+    /**
+     * @BeforeSuite
+     */
+    public static function prepare($scope)
+    {
+        echo "Before All - as in playwright";
+    }
+
+    /**
+     * @AfterSuite
+     */
+    public static function teardown($scope)
+    {
+        echo "After All - as in playwright";
+    }
+
+    /** @BeforeFeature */
+    public static function prepareFeature(BeforeFeatureScope $scope)
+    {
+        echo "Before Feature - as in playwright";
+    }
+
+    /** @AfterFeature */
+    public static function teardownFeature(AfterFeatureScope $scope)
+    {
+        echo "After Feature - as in playwright";
+    }
+
+    /** @BeforeScenario */
+    public function before(BeforeScenarioScope $scope)
+    {
+        echo "Before Scenario - 'Before' as in playwright";
+    }
+
+    /** @AfterScenario */
+    public function after(AfterScenarioScope $scope)
+    {
+        echo "After Scenario - 'After' as in playwright";
     }
 
     /**
