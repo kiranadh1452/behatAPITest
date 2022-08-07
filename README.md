@@ -25,3 +25,9 @@ These hooks not only require the function name and arguments to be like this, bu
   ```bash
   vendor/bin/behat <feature-file-location>
   ```
+
+## Add Dependencies
+> While adding more test cases, there may be cases where you need to add dependencies.
+  ```bash
+  composer require <package-name>
+  ```
